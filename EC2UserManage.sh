@@ -5,24 +5,24 @@ create_instance() {
     echo "Creating an EC2 instance..."
     echo "Gather the details for the following parameters: Instance_type, AMI ID, security_group_id, key_pair_name and subnet_id"
 
-    read -p "Step 1/5 - Enter the instance type (e.g., t2.micro): " instance_type
+    read -r -p "Step 1/5 - Enter the instance type (e.g., t2.micro): " instance_type
     if [ -z "$instance_type" ]; then
         exit
     fi
-    read -p "Step 2/5 - Enter the AMI ID (e.g., ami-123456789): " ami_id
+    read -r -p "Step 2/5 - Enter the AMI ID (e.g., ami-123456789): " ami_id
     if [ -z "$ami_id" ]; then
         exit
     fi
-    read -p "Step 3/5 - Enter the security group ID: " security_group_id
+    read -r -p "Step 3/5 - Enter the security group ID: " security_group_id
     if [ -z "$security_group_id" ]; then
         exit
     fi
 
-    read -p "Step 4/5 - Enter the key pair name: " key_pair_name
+    read -r -p "Step 4/5 - Enter the key pair name: " key_pair_name
     if [ -z "$key_pair_name" ]; then
         exit
     fi
-    read -p "Step 5/5 - Enter the subnet ID: " subnet_id
+    read -r -p "Step 5/5 - Enter the subnet ID: " subnet_id
     if [ -z "$subnet_id" ]; then
         exit
     fi

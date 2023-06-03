@@ -17,7 +17,6 @@ else
     fi
 }
 
-
 delete_access_key()
 {
     echo "Getting access keys... be patient... :-Q"
@@ -47,7 +46,7 @@ delete_access_key()
                 fi
                 echo "... and we're done!."
             else
-                echo "* Error * Failed to delete the selected key-pair $key_pair_name"
+                echo "* Error * Failed to delete the selected key-pair $key"
                 exit 1
             fi
             break
