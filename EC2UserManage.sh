@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Function to create an EC2 instance
 create_instance() {
     echo "Creating an EC2 instance..."
     echo "Gather the details for the following parameters: Instance_type, AMI ID, security_group_id, key_pair_name and subnet_id"
@@ -38,17 +37,14 @@ create_instance() {
     fi
 }
 
-# Function to delete an EC2 instance
 delete_instance() {
     echo "Terminating an EC2 instance..."
     
-    # Get a list of instances
     instance_list=$(aws ec2 describe-instances --query "Reservations[].Instances[].[InstanceId, State.Name]" --output text)
     if [[ -z "$instance_list" ]]; then
         echo "No instances found."
         exit 1
     fi
-    # Print the list of instances
     echo "Instances:"
     echo "$instance_list"
     select instance_id in $instance_list; do
@@ -72,8 +68,6 @@ delete_instance() {
 get_ec2_list()
 {
     instance_list=$(aws ec2 describe-instances --query "Reservations[].Instances[].[InstanceId, State.Name]" --output text)
-    
-    # Check if there are any instances
     if [[ -z "$instance_list" ]]; then
         echo "No EC2 instances found for user $aws_user."
     else
@@ -82,10 +76,8 @@ get_ec2_list()
     fi
 }
 
-
 check_usage()
 {
-    # Check if an AWS user is provided as a parameter
     if [ -z "$1" ]; then
         echo "Usage: $0"' <AWSUserID>'
         echo "AWS User parameter is missing."

@@ -11,7 +11,7 @@ create_access_key()
         key_file="$aws_user.$access_key_id.access-key"
         echo "$result" | tee "$key_file"
         echo "*** Access key file [$key_file] created"
-else
+    else
         echo "Unable to create access key. [Error $?]"
         exit 1
     fi
@@ -31,7 +31,6 @@ delete_access_key()
             echo "Surely, proceeding with the deletion of access key $key..."
             result=$(aws iam delete-access-key --user-name "$aws_user" --access-key-id "$key")
             if [ $? -eq 0 ]; then    
-                #key_id=$(echo "$result" | grep -oE '"KeyPairId": "[^"]+' | awk -F'"' '{print $4}')
                 key_file=$(ls -p -d $aws_user.$key.access-key | grep -v / )
                 echo "Looking for key file: $key_file"
                 if [ -f "$key_file" ]; then
@@ -77,13 +76,12 @@ get_key_list()
     else
         echo "Here you are all the access keys for user $aws_user:"
         key_file="$aws_user.access-keys"
-        make_keys_file #"$key_file" "$keys"
+        make_keys_file
     fi
 }
 
 check_usage()
 {
-    # Check if an AWS user is provided as a parameter
     if [ -z "$1" ]; then
         echo "Usage: $0"' <AWSUserID>'
         echo "AWS User parameter is missing."
@@ -116,17 +114,17 @@ while true; do
     action=$(echo "$action" | tr '[:lower:]' '[:upper:]')
 
     case $action in
-        'C') # Create access key
+        'C')
             create_access_key
             break
             ;;
 
-        'D') # Delete access key
+        'D')
             delete_access_key
             break
             ;;
             
-        'L') # List access keys
+        'L')
             get_key_list #"$aws_user"
             break
             ;;
@@ -142,4 +140,3 @@ while true; do
             ;;
     esac
 done
-

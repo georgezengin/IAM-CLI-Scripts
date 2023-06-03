@@ -35,7 +35,6 @@ delete_key_pair()
             echo "Surely, proceeding with the deletion of key-pair $key..."
             result=$(aws ec2 delete-key-pair --key-name "$key_pair_name")
             if [ $? -eq 0 ]; then
-                #key_id=$(echo "$result" | grep -oE '"KeyPairId": "[^"]+' | awk -F'"' '{print $4}')
                 key_file=$(ls -p -d $aws_user.$key_pair_name*.pem | grep -v / )
                 echo "Looking for key file: $key_file"
                 if [ -f "$key_file" ]; then
@@ -74,21 +73,18 @@ make_key_pairs_file()
 
 get_key_list()
 {
-    #aws_user="$1"
     keypairs=$(aws ec2 describe-key-pairs --query "KeyPairs[].KeyName" --output text)
     if [ -z "$keypairs" ]; then
         echo "* Error * Couldn't get any key-pairs for user $aws_user"
     else
         echo "Here you are all the key-pairs for user $aws_user:"
         key_file="$aws_user.keylist"
-        #echo "$keypairs" | tee "$key_file"
         make_key_pairs_file
     fi
 }
 
 check_usage()
 {
-    # Check if an AWS user is provided as a parameter
     if [ -z "$1" ]; then
         echo "Usage: $0"' <AWSUserID>'
         echo "AWS User parameter is missing."
@@ -121,17 +117,17 @@ while true; do
     action=$(echo "$action" | tr '[:lower:]' '[:upper:]')
 
     case $action in
-        'C') # Create key pair
+        'C')
             create_key_pair
             break
             ;;
 
-        'D') # Delete key pair
+        'D')
             delete_key_pair
             break
             ;;
             
-        'L') # List key-pairs
+        'L')
             get_key_list
             break
             ;;
