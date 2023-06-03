@@ -118,7 +118,7 @@ while true; do
     action=$(echo "$action" | tr '[:lower:]' '[:upper:]')
 
     case $action in
-        'C') # Create access key
+        'C')
             create_instance            
             ;;
         'D')
