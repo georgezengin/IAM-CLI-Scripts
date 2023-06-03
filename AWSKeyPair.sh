@@ -5,7 +5,7 @@ create_key_pair()
     echo ""        
     echo "C'mon! Let's create an keypair for ... this... what's his name? Ah, yes, $aws_user!!!"
 
-    read -p "Enter the key-pair name: " key_pair_name
+    read -r -p "Enter the key-pair name: " key_pair_name
 
     result=$(aws ec2 create-key-pair --key-name "$key_pair_name")
 
@@ -32,7 +32,7 @@ delete_key_pair()
     PS3="Select a key pair to delete: "
     select key_pair_name in $key_pair_list; do
         if [[ -n "$key_pair_name" ]]; then
-            echo "Surely, proceeding with the deletion of key-pair $key..."
+            echo "Surely, proceeding with the deletion of key-pair $key_pair_name..."
             result=$(aws ec2 delete-key-pair --key-name "$key_pair_name")
             if [ $? -eq 0 ]; then
                 key_file=$(ls -p -d $aws_user.$key_pair_name*.pem | grep -v / )
