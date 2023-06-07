@@ -28,7 +28,7 @@ set_region()
 
     # Switch to the specified region if it's different from the current configured region
     if [[ $region != $current_region ]]; then
-        echo "Temporarily switching to region: $REGION"
+        echo "Temporarily switching to region: $region"
         aws configure set region $region
     fi
 }
