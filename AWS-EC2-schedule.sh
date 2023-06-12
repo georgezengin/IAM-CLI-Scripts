@@ -9,7 +9,13 @@ get_region()
     default_choice='N'
     choice='N'
     while true; do
-        read -n 1 -p "Do you want to choose another region? (Y/N) " choice
+        if [ -z "$current_region" ]; then
+            echo '*** No region configured for current user, please choose a region'
+        else
+            read -n 1 -p "Do you want to choose another region? (Y/N) " choice
+            choice=${choice:-$default_choice}  # Set default value if empty
+            choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')  # Convert to lowercase
+        fi
         echo ""
 
         choice=${choice:-$default_choice}  # Set default value if empty
